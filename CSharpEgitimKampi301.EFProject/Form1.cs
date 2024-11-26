@@ -16,5 +16,49 @@ namespace CSharpEgitimKampi301.EFProject
         {
             InitializeComponent();
         }
+
+        EgitimKampiEFTravelDbEntities db = new EgitimKampiEFTravelDbEntities();
+        private void btnList_Click(object sender, EventArgs e)
+        {
+            
+            var values=db.Guide.ToList();
+            dataGridView1.DataSource = values;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            Guide guide=new Guide();
+            guide.GuideName=txtName.Text;
+            guide.GuideSurname=txtSurname.Text;
+            db.Guide.Add(guide);
+            db.SaveChanges();
+            MessageBox.Show("Rehber Başarı İle Eklendi!");
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            int id=int.Parse(txtId.Text);
+            var removeValue=db.Guide.Find(id);
+            db.Guide.Remove(removeValue);
+            db.SaveChanges() ;
+            MessageBox.Show("Rehber Başarı İle Silindi");
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            int id = int.Parse(txtId.Text);
+            var updateValue = db.Guide.Find(id);
+            updateValue.GuideName = txtName.Text;
+            updateValue.GuideSurname= txtSurname.Text;
+            db.SaveChanges();
+            MessageBox.Show("Rehber Başarı İle Güncellendi!","UYARI",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+        }
+
+        private void btnListById_Click(object sender, EventArgs e)
+        {
+            int id=int.Parse(txtId.Text);
+            var values=db.Guide.Where(x=>x.GuideId==id).ToList();
+            dataGridView1.DataSource= values;
+        }
     }
 }
